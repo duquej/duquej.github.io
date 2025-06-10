@@ -452,17 +452,48 @@
         sign_request = false,
         dcql_query = null
       ) {
-        var request = await getRequest(
-          requestedProtocol,
-          doctype,
-          requestedMdocAttributes,
-          transactionData,
-          issuanceOffer,
-          vct_values,
-          encrypt_response,
-          sign_request,
-          dcql_query
-        );
+        // var request = await getRequest(
+        //   requestedProtocol,
+        //   doctype,
+        //   requestedMdocAttributes,
+        //   transactionData,
+        //   issuanceOffer,
+        //   vct_values,
+        //   encrypt_response,
+        //   sign_request,
+        //   dcql_query
+        // );
+
+        var request = {
+          protocol: "preview",
+          request: {
+            dcql_query: {
+              credentials: [
+                {
+                  claims: [
+                    { path: ["org.iso.18013.5.1", "family_name"] },
+                    { path: ["org.iso.18013.5.1", "given_name"] },
+                    { path: ["org.iso.18013.5.1", "age_over_21"] },
+                  ],
+                  format: "mso_mdoc",
+                  id: "cred1",
+                  meta: { doctype_value: "org.iso.18013.5.1.mDL" },
+                },
+              ],
+            },
+            nonce: "H2AGiqHooGKJP36zmshI7TIrjwsJz8HnXkHfnXpNajw",
+            response_mode: "dc_api",
+            response_type: "vp_token",
+          },
+          state: {
+            credential_type: "mso_mdoc",
+            nonce: "H2AGiqHooGKJP36zmshI7TIrjwsJz8HnXkHfnXpNajw",
+            private_key: "3sTnD9kBJdVplKDlOQVIcRk-i8wL9IXFgvrXnCnKHNI=",
+            public_key:
+              "BMSxSlZmlSjW2JI6W2jBF7sL20oYhVvVLHmiu5pCE7NJ1iNFhW0EVzr7tlGfU40yw1PLuSEiFY-Z9LONpROXW40=",
+          },
+        };
+
         try {
           var credentialResponse = await navigator.credentials.get({
             digital: {
