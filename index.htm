@@ -391,19 +391,24 @@
       }
 
       async function callServer(cmd, params) {
-        const config = {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(params),
-        };
-        const response = await fetch(
-          "https://digital-credentials.dev/api/" + cmd,
-          config
-        );
-        return await response.json();
+        try {
+          const config = {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(params),
+          };
+          const response = await fetch(
+            "https://digital-credentials.dev/api/" + cmd,
+            config
+          );
+          return await response.json();
+        } catch (error) {
+          alert("Error calling server: " + error);
+          throw error;
+        }
       }
 
       async function requestIssuance(
@@ -591,6 +596,17 @@
       }
 
       async function requestAndShowDigitalCreds(requestedProtocol) {
+        if (
+          !navigator.credentials ||
+          !navigator.credentials.get ||
+          !("digital" in navigator.credentials)
+        ) {
+          alert(
+            "Digital Credentials API is not supported on this browser/device."
+          );
+          return;
+        }
+
         var useEncryption = document.getElementById("useEncryption").checked;
         var signRequest = document.getElementById("signRequest").checked;
         var data = await requestDigitalCreds(
