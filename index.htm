@@ -464,66 +464,41 @@
         //   dcql_query
         // );
 
-        var selector = {
-          format: ["mso_mdoc"],
-          id: ["cred1"],
-          meta: { doctype_value: "org.iso.18013.5.1.mDL" },
-        };
+        // var selector = {
+        //   format: ["mso_mdoc"],
+        //   id: ["cred1"],
+        //   meta: { doctype_value: "org.iso.18013.5.1.mDL" },
+        // };
 
-        var previewRequest = {
-          protocol: "preview",
-          request: {
-            selector: {
-              format: ["mdoc"],
-              doctype: "org.iso.18013.5.1.mDL",
-              fields: [
-                {
-                  namespace: "org.iso.18013.5.1",
-                  name: "family_name",
-                  intentToRetain: true,
-                },
-                {
-                  namespace: "org.iso.18013.5.1",
-                  name: "given_name",
-                  intentToRetain: false,
-                },
-              ],
-            },
-            nonce: "3fsdqJt7pwkWkA7YOxxDP11kDZWHEIdXq4txmP2XwJc",
-            readerPublicKey:
-              "BHyYXn6pE7JQvXoC3Zd8bTE0LKfpd2XY30-VNJD4SeHhbSeJ-JzWhFf0pXFo9MZG7pQ0wWo-6L2L28od2MeEG8G8",
-          },
-        };
-
-        var request = {
-          protocol: "preview",
-          request: {
-            dcql_query: {
-              credentials: [
-                {
-                  claims: [
-                    { path: ["org.iso.18013.5.1", "family_name"] },
-                    { path: ["org.iso.18013.5.1", "given_name"] },
-                    { path: ["org.iso.18013.5.1", "age_over_21"] },
-                  ],
-                  format: "mso_mdoc",
-                  id: "cred1",
-                  meta: { doctype_value: "org.iso.18013.5.1.mDL" },
-                },
-              ],
-            },
-            nonce: "H2AGiqHooGKJP36zmshI7TIrjwsJz8HnXkHfnXpNajw",
-            response_mode: "dc_api",
-            response_type: "vp_token",
-          },
-          state: {
-            credential_type: "mso_mdoc",
-            nonce: "H2AGiqHooGKJP36zmshI7TIrjwsJz8HnXkHfnXpNajw",
-            private_key: "3sTnD9kBJdVplKDlOQVIcRk-i8wL9IXFgvrXnCnKHNI=",
-            public_key:
-              "BMSxSlZmlSjW2JI6W2jBF7sL20oYhVvVLHmiu5pCE7NJ1iNFhW0EVzr7tlGfU40yw1PLuSEiFY-Z9LONpROXW40=",
-          },
-        };
+        // var request = {
+        //   protocol: "preview",
+        //   request: {
+        //     dcql_query: {
+        //       credentials: [
+        //         {
+        //           claims: [
+        //             { path: ["org.iso.18013.5.1", "family_name"] },
+        //             { path: ["org.iso.18013.5.1", "given_name"] },
+        //             { path: ["org.iso.18013.5.1", "age_over_21"] },
+        //           ],
+        //           format: "mso_mdoc",
+        //           id: "cred1",
+        //           meta: { doctype_value: "org.iso.18013.5.1.mDL" },
+        //         },
+        //       ],
+        //     },
+        //     nonce: "H2AGiqHooGKJP36zmshI7TIrjwsJz8HnXkHfnXpNajw",
+        //     response_mode: "dc_api",
+        //     response_type: "vp_token",
+        //   },
+        //   state: {
+        //     credential_type: "mso_mdoc",
+        //     nonce: "H2AGiqHooGKJP36zmshI7TIrjwsJz8HnXkHfnXpNajw",
+        //     private_key: "3sTnD9kBJdVplKDlOQVIcRk-i8wL9IXFgvrXnCnKHNI=",
+        //     public_key:
+        //       "BMSxSlZmlSjW2JI6W2jBF7sL20oYhVvVLHmiu5pCE7NJ1iNFhW0EVzr7tlGfU40yw1PLuSEiFY-Z9LONpROXW40=",
+        //   },
+        // };
 
         const fields = [
           {
@@ -543,30 +518,26 @@
           },
         ];
 
-        const credentialOptions = {
-          digital: {
-            providers: [
-              {
-                protocol: "preview",
-                request: {
-                  selector: {
-                    format: ["mdoc"],
-                    doctype: "org.iso.18013.5.1.mDL",
-                    fields,
-                  },
-                  nonce: "3fsdqJt7pwkWkA7YOxxDP11kDZWHEIdXq4txmP2XwJc",
-                  readerPublicKey:
-                    "BHyYXn6pE7JQvXoC3Zd8bTE0LKfpd2XY30-VNJD4SeHhbSeJ-JzWhFf0pXFo9MZG7pQ0wWo-6L2L28od2MeEG8G8",
-                },
-              },
-            ],
-          },
-        };
-
         try {
-          var credentialResponse = await navigator.credentials.get(
-            credentialOptions
-          );
+          var credentialResponse = await navigator.credentials.get({
+            digital: {
+              requests: [
+                {
+                  protocol: "preview",
+                  data: {
+                    selector: {
+                      format: ["mdoc"],
+                      doctype: "org.iso.18013.5.1.mDL",
+                      fields,
+                    },
+                    nonce: "H2AGiqHooGKJP36zmshI7TIrjwsJz8HnXkHfnXpNajw",
+                    readerPublicKey:
+                      "BMSxSlZmlSjW2JI6W2jBF7sL20oYhVvVLHmiu5pCE7NJ1iNFhW0EVzr7tlGfU40yw1PLuSEiFY-Z9LONpROXW40=",
+                  },
+                },
+              ],
+            },
+          });
           if (credentialResponse.constructor.name == "DigitalCredential") {
             const data = credentialResponse.data;
             const protocol = credentialResponse.protocol;
