@@ -464,6 +464,37 @@
         //   dcql_query
         // );
 
+        var selector = {
+          format: ["mso_mdoc"],
+          id: ["cred1"],
+          meta: { doctype_value: "org.iso.18013.5.1.mDL" },
+        };
+
+        var previewRequest = {
+          protocol: "preview",
+          request: {
+            selector: {
+              format: ["mdoc"],
+              doctype: "org.iso.18013.5.1.mDL",
+              fields: [
+                {
+                  namespace: "org.iso.18013.5.1",
+                  name: "family_name",
+                  intentToRetain: true,
+                },
+                {
+                  namespace: "org.iso.18013.5.1",
+                  name: "given_name",
+                  intentToRetain: false,
+                },
+              ],
+            },
+            nonce: "3fsdqJt7pwkWkA7YOxxDP11kDZWHEIdXq4txmP2XwJc",
+            readerPublicKey:
+              "BHyYXn6pE7JQvXoC3Zd8bTE0LKfpd2XY30-VNJD4SeHhbSeJ-JzWhFf0pXFo9MZG7pQ0wWo-6L2L28od2MeEG8G8",
+          },
+        };
+
         var request = {
           protocol: "preview",
           request: {
@@ -497,10 +528,10 @@
         try {
           var credentialResponse = await navigator.credentials.get({
             digital: {
-              requests: [
+              providers: [
                 {
-                  protocol: request["protocol"],
-                  data: request["request"],
+                  protocol: "preview",
+                  request: request["request"],
                 },
               ],
             },
