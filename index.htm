@@ -525,17 +525,48 @@
           },
         };
 
-        try {
-          var credentialResponse = await navigator.credentials.get({
-            digital: {
-              providers: [
-                {
-                  protocol: "preview",
-                  request: previewRequest["request"],
+        const fields = [
+          {
+            namespace: "org.iso.18013.5.1",
+            name: "family_name",
+            intentToRetain: false,
+          },
+          {
+            namespace: "org.iso.18013.5.1",
+            name: "given_name",
+            intentToRetain: false,
+          },
+          {
+            namespace: "org.iso.18013.5.1",
+            name: "age_over_21",
+            intentToRetain: false,
+          },
+        ];
+
+        const credentialOptions = {
+          digital: {
+            providers: [
+              {
+                protocol: "preview",
+                request: {
+                  selector: {
+                    format: ["mdoc"],
+                    doctype: "org.iso.18013.5.1.mDL",
+                    fields,
+                  },
+                  nonce: "3fsdqJt7pwkWkA7YOxxDP11kDZWHEIdXq4txmP2XwJc",
+                  readerPublicKey:
+                    "BHyYXn6pE7JQvXoC3Zd8bTE0LKfpd2XY30-VNJD4SeHhbSeJ-JzWhFf0pXFo9MZG7pQ0wWo-6L2L28od2MeEG8G8",
                 },
-              ],
-            },
-          });
+              },
+            ],
+          },
+        };
+
+        try {
+          var credentialResponse = await navigator.credentials.get(
+            credentialOptions
+          );
           if (credentialResponse.constructor.name == "DigitalCredential") {
             const data = credentialResponse.data;
             const protocol = credentialResponse.protocol;
