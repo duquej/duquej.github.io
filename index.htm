@@ -627,17 +627,6 @@
       }
 
       async function requestAndShowDigitalCreds(requestedProtocol) {
-        if (
-          !navigator.credentials ||
-          !navigator.credentials.get ||
-          !("digital" in navigator.credentials)
-        ) {
-          alert(
-            "Digital Credentials API is not supported on this browser/device."
-          );
-          return;
-        }
-
         var useEncryption = document.getElementById("useEncryption").checked;
         var signRequest = document.getElementById("signRequest").checked;
         var data = await requestDigitalCreds(
